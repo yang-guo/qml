@@ -1,0 +1,29 @@
+--- qml.q
++++ qml.q
+@@ -9,7 +9,8 @@
+         `sin`cos`tan`asin`acos`atan`sinh`cosh`tanh`asinh`acosh`atanh,`exp`expm1,
+             `log`log10`logb`log1p`sqrt`cbrt`floor`ceil`fabs`erf`erfc,
+             `lgamma`gamma`j0`j1`y0`y1`ncdf`nicdf`kcdf`kicdf,
+-            `mdet`minv`mevu`mchol`mqr`mqrp`mlup`msvd`poly`const;
++            `mdet`minv`mevu`mchol`mqr`mqrp`mlup`msvd`poly`const,
++            `debug_alloc`debug_coverage;
+         `atan2`pow`hypot`fmod`beta`pgammar`pgammarc`ipgammarc`c2cdf`c2icdf,
+             `stcdf`sticdf`pscdf`psicdf`smcdf`smicdf`mm`ms`mls`mlsq,
+             `solve`min`root;
+@@ -29,3 +30,5 @@
+     ?'[(s=0)|s<eps*s[0;0]*max mdim s;s;reciprocal s:(x:msvd x)1]};
+ mev:{x@\:idesc sum each {x*x} first x:mevu x};
+ mkron:{raze(raze'')(flip')x*\:\:y};
++
++debug_coverage[];
+--- test.q
++++ test.q
+@@ -14,7 +14,7 @@
+ mttests:enlist[`]!enlist();
+ passed:total:2#0;
+ test:{
+-    v:@[value;x;`$];
++    while[.qml.debug_alloc[];v:@[value;x;`$]];
+     if[$[8>system"s";0b;pass<>0;0b;reps=0;0b;-11h=type v;0b;
+             (-11h=type p 0) and 0h=type p:parse x;1b;'`run];
+         mttests[p 0],:enlist((v~value@;eval each p);reps)];

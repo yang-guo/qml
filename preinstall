@@ -1,0 +1,2 @@
+sh configure QHOME=.. KXARCH=l32 FLAGS="-m32 -march=i686" --build-blas --build-lapack && make && make install
+sh configure QHOME=.. KXARCH=l64 --build-blas --build-lapack && make && make install
